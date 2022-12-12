@@ -139,17 +139,24 @@ async function main() {
     const child = canvas.children[i]
     if (child.type === 'FRAME' && child.visible !== false) {
       const child = canvas.children[i];
-      figma.createComponent(child, imagesToSave, componentMap);
-      nextSection += `export class Master${child.name.replace(/\W+/g, "")} extends PureComponent {\n`;
-      nextSection += "  render() {\n";
-      nextSection += `    return <div className="master" style={{backgroundColor: "${figma.colorString(child.backgroundColor)}"}}>\n`;
-      nextSection += `      <C${child.name.replace(/\W+/g, "")} {...this.props} nodeId="${child.id}" />\n`;
-      nextSection += "    </div>\n";
-      nextSection += "  }\n";
-      nextSection += "}\n\n";
+      const sName = child.name.replace(/\W+/g, "");
+      let sFileName = sName.toLowerCase();
       if(child.id == startNode){
         // TODO set filename to src/pages/index.js
+        sFileName = "index";
       }
+      figma.createComponent(child, imagesToSave, componentMap);
+      let sPageFile = `import React, { PureComponent } from 'react';\n`;
+      sPageFile += `import { C${sName} } from '../components/C${sName}';\n`;
+
+      sPageFile += `export default class Master${sName} extends PureComponent {\n`;
+      sPageFile += "  render() {\n";
+      sPageFile += `    return <div className="master" style={{backgroundColor: "${figma.colorString(child.backgroundColor)}"}}>\n`;
+      sPageFile += `      <C${sName} {...this.props} nodeId="${child.id}" />\n`;
+      sPageFile += "    </div>\n";
+      sPageFile += "  }\n";
+      sPageFile += "}\n\n";
+      fs.writeFileSync(`src/pages/${sFileName}.js`, sPageFile);
     }
   }
 
