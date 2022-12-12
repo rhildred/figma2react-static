@@ -148,16 +148,7 @@ async function main() {
       nextSection += "  }\n";
       nextSection += "}\n\n";
       if(child.id == startNode){
-        fs.writeFileSync("src/index.js", `
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import { Master${child.name.replace(/\W+/g, "")} } from './figmaComponents';
-import registerServiceWorker from './registerServiceWorker';
-
-ReactDOM.render(<Master${child.name.replace(/\W+/g, "")} />, document.body);
-registerServiceWorker();
-        `);
+        // TODO set filename to src/pages/index.js
       }
     }
   }

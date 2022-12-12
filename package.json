@@ -6,7 +6,8 @@
     "stage": "react-static --openssl-legacy-provider build --staging",
     "build": "react-static --openssl-legacy-provider build",
     "analyze": "react-static --openssl-legacy-provider build --analyze",
-    "serve": "serve dist -p 3000"
+    "serve": "serve dist -p 3000",
+    "fetch_figma": "node main.js OQrd4AYKKveW7u6uZ1fD9E"
   },
   "dependencies": {
     "@reach/router": "^1.3.4",
