@@ -142,6 +142,7 @@ async function main() {
     if (child.type === 'FRAME' && child.visible !== false) {
       const sName = child.name.replace(/\W+/g, "");
       const sNodeIds = figma.getNodeIds(child);
+      console.log(`${child.name}:${sNodeIds}`);
       data = await fetch(`${baseUrl}/v1/files/${fileKey}/nodes?ids=${sNodeIds}`, {headers});
       const nodeJSON = await data.json();
       fs.writeFileSync(`${sName}_nodes.json`, JSON.stringify(nodeJSON));
