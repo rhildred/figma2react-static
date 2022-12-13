@@ -90,7 +90,7 @@ function preprocessTree(node) {
 async function main() {
   let resp = await fetch(`${baseUrl}/v1/files/${fileKey}`, {headers});
   let data = await resp.json();
-
+  fs.writeFileSync(`file_nodes.json`, JSON.stringify(data));
   const doc = data.document;
   const canvas = doc.children[0];
   const startNode = canvas.prototypeStartNodeID;
@@ -101,6 +101,8 @@ async function main() {
     if (child.type === 'FRAME'  && child.visible !== false) {
       const child = canvas.children[i];
       preprocessTree(child);
+    }else{
+      fs.writeFileSync(`${child.name}_other_nodes.json`, JSON.stringify(child));
     }
   }
 
@@ -138,8 +140,11 @@ async function main() {
   for (let i=0; i<canvas.children.length; i++) {
     const child = canvas.children[i]
     if (child.type === 'FRAME' && child.visible !== false) {
-      const child = canvas.children[i];
       const sName = child.name.replace(/\W+/g, "");
+      const sNodeIds = figma.getNodeIds(child);
+      data = await fetch(`${baseUrl}/v1/files/${fileKey}/nodes?ids=${sNodeIds}`, {headers});
+      const nodeJSON = await data.json();
+      fs.writeFileSync(`${sName}_nodes.json`, JSON.stringify(nodeJSON));
       let sFileName = sName.toLowerCase();
       if(child.id == startNode){
         // TODO set filename to src/pages/index.js
