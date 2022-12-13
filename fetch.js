@@ -6,20 +6,19 @@ const figma = require('./lib/figma');
 
 const headers = new fetch.Headers();
 const componentList = [];
-let devToken = process.env.DEV_TOKEN;
 
-if (process.argv.length < 3) {
-  console.log('Usage: node setup.js <file-key> [figma-dev-token]');
+let devToken = null;
+let fileKey = null;  
+
+try{
+  devToken = process.env.DEV_TOKEN || process.argv[3];
+  fileKey = process.env.FILE_KEY || process.argv[2];  
+}catch{
+  console.log('Usage: node main.js <file-key> [figma-dev-token]');
   process.exit(0);
 }
 
-if (process.argv.length > 3) {
-  devToken = process.argv[3];
-}
-
 headers.append('X-Figma-Token', devToken);
-
-const fileKey = process.argv[2];
 const baseUrl = 'https://api.figma.com';
 
 const vectorMap = {};
