@@ -134,7 +134,9 @@ async function main() {
   }
 
   const componentMap = {};
-  let contents = `import React, { PureComponent } from 'react';\n`;
+  let contents = `
+import React, { PureComponent } from 'react';
+import { Link, Router } from 'components/Router'\n`;
   let nextSection = '';
 
   for (let i=0; i<canvas.children.length; i++) {
@@ -150,6 +152,7 @@ async function main() {
       if(child.id == startNode){
         // TODO set filename to src/pages/index.js
         sFileName = "index";
+        componentMap.index = child.name
       }
       figma.createComponent(child, imagesToSave, componentMap);
       let sPageFile = `import React, { PureComponent } from 'react';\n`;
@@ -168,6 +171,7 @@ async function main() {
 
   const imported = {};
   for (const key in componentMap) {
+    if(key == "index") continue;
     const component = componentMap[key];
     const name = component.name;
     if (!imported[name]) {

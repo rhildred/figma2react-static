@@ -2,10 +2,10 @@
   "name": "react-static-example-basic",
   "private": true,
   "scripts": {
-    "start": "react-static start --openssl-legacy-provider",
-    "stage": "react-static --openssl-legacy-provider build --staging",
-    "build": "react-static --openssl-legacy-provider build",
-    "analyze": "react-static --openssl-legacy-provider build --analyze",
+    "start": "react-static start",
+    "stage": "react-static build --staging",
+    "build": "react-static build",
+    "analyze": "react-static build --analyze",
     "serve": "serve dist -p 3000",
     "fetch_figma": "node main.js OQrd4AYKKveW7u6uZ1fD9E"
   },
